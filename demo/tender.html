@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tamil Nadu e-Procurement Portal - Demo Tender View</title>
+  <link rel="stylesheet" href="tender.css">
+</head>
+<body>
+  <!-- Portal Header / Government Style Banner -->
+  <header class="gov-portal-header">
+    <div class="gov-top-strip">
+      <div class="container flex-between">
+        <span>Government of Tamil Nadu • e-Procurement System</span>
+        <span>Coimbatore Urban Solid Waste Management Jurisdiction</span>
+      </div>
+    </div>
+    <div class="gov-main-header container flex-between">
+      <div class="logo-area">
+        <div class="tn-emblem">🏛️</div>
+        <div>
+          <div class="portal-title">Tenders Tamil Nadu</div>
+          <div class="portal-sub">eProcurement System Government of Tamil Nadu</div>
+        </div>
+      </div>
+      <div class="demo-banner-badge">
+        <strong>DEMO TENDER VIEW</strong>
+        <span>Smart City Hackathon 2026 • Real Public Source Data</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Scenario Bar -->
+  <section class="scenario-selector-bar">
+    <div class="container flex-between align-center">
+      <div class="scenario-label">
+        <span class="pulse-dot"></span> Select Demo Scenario:
+      </div>
+      <div class="scenario-buttons">
+        <button id="scenario1Btn" class="scen-btn active" data-scenario="1">
+          🟢 Scenario 1: Normal SWM Tender (Ettimadai)
+        </button>
+        <button id="scenario2Btn" class="scen-btn" data-scenario="2">
+          🟠 Scenario 2: Completion Evidence Gap (Pooluvapatti)
+        </button>
+        <button id="scenario3Btn" class="scen-btn" data-scenario="3">
+          🔴 Scenario 3: Repeated Procurement (Ettimadai)
+        </button>
+        <button id="scenario4Btn" class="scen-btn" data-scenario="4">
+          ⚪ Scenario 4: Non-SWM Civil Record (CCMC Ward 24)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Tender View Container -->
+  <main class="container page-content">
+    <div class="page-title-row">
+      <h2>Tender Details</h2>
+      <div class="expected-badge" id="scenarioIndicator">
+        Expected Watchdog Signal: <strong id="expectedSignalText">🟢 No accountability signal</strong>
+      </div>
+    </div>
+
+    <!-- Official Style Tender Details Table -->
+    <div class="tender-card">
+      <div class="card-header">
+        <h3>Basic Tender Information</h3>
+      </div>
+      <table class="tender-table">
+        <tbody>
+          <tr>
+            <th class="label-col">Organisation Chain</th>
+            <td id="tdAuthority" class="val-col">Ettimadai Town Panchayat</td>
+            <th class="label-col">Department</th>
+            <td id="tdDepartment" class="val-col">Directorate of Town Panchayats</td>
+          </tr>
+          <tr>
+            <th class="label-col">Tender Reference Number</th>
+            <td id="tdRefNo" class="val-col">ROC No.252/2023</td>
+            <th class="label-col">Tender ID</th>
+            <td id="tdTenderId" class="val-col highlight-id">2025_DTP_554159_1</td>
+          </tr>
+          <tr>
+            <th class="label-col">Tender Type</th>
+            <td class="val-col">Open Tender</td>
+            <th class="label-col">Admin Type</th>
+            <td id="tdAdminType" class="val-col">Town Panchayat</td>
+          </tr>
+          <tr>
+            <th class="label-col">General Technical Evaluation Allowed</th>
+            <td class="val-col">Yes</td>
+            <th class="label-col">Payment Mode</th>
+            <td class="val-col">Online</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Work Details Card -->
+    <div class="tender-card">
+      <div class="card-header">
+        <h3>Work Item Details</h3>
+      </div>
+      <table class="tender-table">
+        <tbody>
+          <tr>
+            <th class="label-col">Tender Title</th>
+            <td id="tdTitle" colspan="3" class="val-col font-bold">
+              Providing Windrow Pad with Roofing 2.5 MT at Resource Recovery Park
+            </td>
+          </tr>
+          <tr>
+            <th class="label-col">Work Description</th>
+            <td id="tdWorkDesc" colspan="3" class="val-col">
+              Providing Windrow Pad with Roofing 2.5 MT at Resource Recovery Park
+            </td>
+          </tr>
+          <tr>
+            <th class="label-col">Category</th>
+            <td id="tdCategory" class="val-col">Solid Waste Management / Wet Waste</td>
+            <th class="label-col">Sub category</th>
+            <td id="tdSubCategory" class="val-col">Wet Waste</td>
+          </tr>
+          <tr>
+            <th class="label-col">Tender Value in ₹</th>
+            <td id="tdValue" class="val-col font-bold">₹ 30,10,000</td>
+            <th class="label-col">EMD Amount in ₹</th>
+            <td id="tdEmd" class="val-col">₹ 30,100</td>
+          </tr>
+          <tr>
+            <th class="label-col">Location</th>
+            <td id="tdLocality" class="val-col">Ettimadai</td>
+            <th class="label-col">Zone</th>
+            <td id="tdZone" class="val-col">N/A</td>
+          </tr>
+          <tr>
+            <th class="label-col">Ward</th>
+            <td id="tdWard" class="val-col">Not Stated (null)</td>
+            <th class="label-col">Period Of Work(Days)</th>
+            <td id="tdWorkPeriod" class="val-col font-bold">90</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Critical Dates Card -->
+    <div class="tender-card">
+      <div class="card-header">
+        <h3>Critical Dates</h3>
+      </div>
+      <table class="tender-table">
+        <tbody>
+          <tr>
+            <th class="label-col">Published Date</th>
+            <td id="tdPublishedDate" class="val-col">2025-05-03</td>
+            <th class="label-col">Bid Opening Date</th>
+            <td id="tdBidOpeningDate" class="val-col">2025-05-20</td>
+          </tr>
+          <tr>
+            <th class="label-col">Document Download Start Date</th>
+            <td class="val-col">2025-05-03</td>
+            <th class="label-col">Document Download End Date</th>
+            <td class="val-col">2025-05-19</td>
+          </tr>
+          <tr>
+            <th class="label-col">Tender Status</th>
+            <td id="tdStatus" class="val-col status-pill">Published / Active</td>
+            <th class="label-col">Official TN Tenders Source</th>
+            <td class="val-col">
+              <a id="tdSourceLink" href="https://tntenders.gov.in/nicgep/app?component=%24DirectLink&page=FrontEndViewTender&service=direct&sp=S8Epcmeu8nBzBviWyfyF7Rg%3D%3D" target="_blank" class="portal-link">
+                View on Official Portal ↗
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Verification & Accountability Note -->
+    <div class="verification-box">
+      <div class="v-icon">ℹ️</div>
+      <div>
+        <strong>Dataset Provenance:</strong>
+        <p id="tdVerificationNote">
+          Official verified tender record from source_dataset.xlsx (Sheet: 10 Panchayat). Verified initial solid-waste infrastructure procurement for Resource Recovery Park in Ettimadai.
+        </p>
+      </div>
+    </div>
+
+    <!-- Procurement Evidence Section -->
+    <div id="demoEvidenceSection" class="evidence-section-wrapper">
+      <div class="evidence-section-title-bar flex-between align-center">
+        <div class="flex-align">
+          <span class="evidence-icon">📑</span>
+          <h3>Procurement Evidence Records</h3>
+        </div>
+        <span id="demoEvidenceBadge" class="badge-evidence-count">Official Public Data</span>
+      </div>
+      <div id="demoEvidenceGrid" class="demo-evidence-grid">
+        <!-- Rendered dynamically by tender.js -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="gov-footer">
+    <div class="container flex-between">
+      <span>Portal Contents Owned, Maintained and Updated by Tamil Nadu State Government.</span>
+      <span>Demo page rendered for Municipal Tender Watchdog demonstration.</span>
+    </div>
+  </footer>
+
+  <script src="tender.js"></script>
+</body>
+</html>

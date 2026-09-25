@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Municipal Tender Watchdog</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="watchdog-container">
+    <!-- Header -->
+    <header class="watchdog-header">
+      <div class="brand">
+        <span class="brand-icon">🛡️</span>
+        <div>
+          <h1>MUNICIPAL TENDER WATCHDOG</h1>
+          <p class="brand-subtitle">Coimbatore Urban Accountability</p>
+        </div>
+      </div>
+      <div id="backendStatus" class="backend-pill online" title="Backend: http://127.0.0.1:8000">API Connected</div>
+    </header>
+
+    <!-- Content Area -->
+    <main id="mainContent">
+      <!-- 1. Not Detected View -->
+      <section id="notDetectedView" class="view-panel">
+        <div class="empty-state">
+          <div class="empty-icon">🌐</div>
+          <h3>Live Tender Details Not Detected</h3>
+          <p>Navigate to an active municipal tender details page on the official TN e-Procurement portal to analyze in real time.</p>
+          <a href="https://tntenders.gov.in/nicgep/app" target="_blank" id="openPortalBtn" class="btn btn-primary btn-block" style="text-decoration: none; text-align: center; margin-bottom: 10px; display: block;">
+            Open Official TN Tenders Portal
+          </a>
+          <button id="openDemoBtn" class="btn btn-secondary btn-sm" style="font-size: 11px; opacity: 0.85;">Open Offline Demo Page (Dev Fallback)</button>
+        </div>
+      </section>
+
+      <!-- 2. Detected View -->
+      <section id="detectedView" class="view-panel hidden">
+        <div class="detection-card">
+          <div id="detectedBadge" class="detected-badge live-badge">
+            <span class="pulse-dot"></span> <span id="detectedBadgeText">LIVE TENDER DETECTED</span>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Source Portal:</span>
+              <span id="detPortal" class="info-val portal-tag">tntenders.gov.in</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Tender ID:</span>
+              <span id="detTenderId" class="info-val">—</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Authority:</span>
+              <span id="detAuthority" class="info-val">—</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Location:</span>
+              <span id="detLocation" class="info-val">—</span>
+            </div>
+          </div>
+          <button id="analyzeBtn" class="btn btn-primary btn-block">
+            ANALYZE LIVE TENDER
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. Loading View -->
+      <section id="loadingView" class="view-panel hidden">
+        <div class="loading-box">
+          <div class="spinner"></div>
+          <h3>Analyzing live tender...</h3>
+          <ul class="progress-steps">
+            <li id="step1" class="step active">Extracting details...</li>
+            <li id="step2" class="step">Checking historical records...</li>
+            <li id="step3" class="step">Checking accountability signals...</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 4. Result View -->
+      <section id="resultView" class="view-panel hidden">
+        <!-- Signal Badge -->
+        <div id="signalBadge" class="signal-badge signal-green">
+          <span id="signalIcon" class="signal-symbol">🟢</span>
+          <span id="signalHeadline">No accountability signal detected</span>
+        </div>
+
+        <!-- Portal Search Interaction Notice -->
+        <div id="portalSearchNotice" class="portal-notice">
+          ℹ️ Official portal search requires user interaction (CAPTCHA required by tntenders.gov.in). Historical evaluation conducted against verified SQLite cache.
+        </div>
+
+        <!-- Plain Language Explanation -->
+        <div class="explanation-card">
+          <h4>Analysis Summary</h4>
+          <p id="explanationText">—</p>
+        </div>
+
+        <!-- Evidence Section -->
+        <section id="evidenceSection" class="evidence-section">
+          <div class="evidence-section-header">
+            <h4>Evidence</h4>
+            <span id="evidenceCountBadge" class="evidence-count-badge">Public Records</span>
+          </div>
+          <div id="evidenceCardsContainer" class="evidence-cards-container">
+            <!-- Dynamic evidence items from analysis.evidence_list rendered here -->
+          </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="action-row">
+          <button id="viewEvidenceBtn" class="btn btn-outline">Detailed Comparison</button>
+          <button id="generateRtiBtn" class="btn btn-accent">Generate RTI</button>
+        </div>
+
+        <!-- Evidence Drawer / Card -->
+        <div id="evidencePanel" class="detail-drawer hidden">
+          <div class="drawer-header">
+            <h4>Accountability Evidence Comparison</h4>
+            <button id="closeEvidenceBtn" class="close-btn">&times;</button>
+          </div>
+          <div class="evidence-body">
+            <!-- Current Tender -->
+            <div class="evidence-block">
+              <h5>CURRENT TENDER</h5>
+              <table class="evidence-table">
+                <tr><th>Tender ID</th><td id="evCurrId">—</td></tr>
+                <tr><th>Authority</th><td id="evCurrAuth">—</td></tr>
+                <tr><th>Locality</th><td id="evCurrLoc">—</td></tr>
+                <tr><th>Ward / Zone</th><td id="evCurrWardZone">—</td></tr>
+                <tr><th>Title</th><td id="evCurrTitle">—</td></tr>
+                <tr><th>Published Date</th><td id="evCurrDate">—</td></tr>
+                <tr><th>Value</th><td id="evCurrVal">—</td></tr>
+                <tr><th>Official Source</th><td><a id="evCurrSourceLink" href="#" target="_blank" rel="noopener noreferrer" class="source-link">Open Official Source ↗</a></td></tr>
+              </table>
+            </div>
+
+            <!-- Historical Match -->
+            <div id="histMatchBlock" class="evidence-block">
+              <h5>HISTORICAL MATCH</h5>
+              <div id="noHistMatchNote" class="subtle-note hidden">No repeated historical match found within 18 months.</div>
+              <table id="histMatchTable" class="evidence-table">
+                <tr><th>Tender ID</th><td id="evHistId">—</td></tr>
+                <tr><th>Authority</th><td id="evHistAuth">—</td></tr>
+                <tr><th>Locality</th><td id="evHistLoc">—</td></tr>
+                <tr><th>Ward / Zone</th><td id="evHistWardZone">—</td></tr>
+                <tr><th>Title</th><td id="evHistTitle">—</td></tr>
+                <tr><th>Published Date</th><td id="evHistDate">—</td></tr>
+                <tr><th>Similarity Score</th><td id="evHistScore" class="highlight-score">—</td></tr>
+                <tr><th>Time Difference</th><td id="evHistTime">—</td></tr>
+                <tr><th>Official Source</th><td><a id="evHistSourceLink" href="#" target="_blank" rel="noopener noreferrer" class="source-link">Open Official Source ↗</a></td></tr>
+              </table>
+            </div>
+
+            <!-- Source Link Fallback -->
+            <div class="evidence-block source-block">
+              <h5>OFFICIAL SOURCE PORTAL</h5>
+              <a id="evSourceLink" href="#" target="_blank" rel="noopener noreferrer" class="source-link">
+                Open Official Source ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RTI Drawer / Card -->
+        <div id="rtiPanel" class="detail-drawer hidden">
+          <div class="drawer-header">
+            <h4>RTI Application Draft</h4>
+            <button id="closeRtiBtn" class="close-btn">&times;</button>
+          </div>
+          <div class="rti-body">
+            <p class="rti-disclaimer">
+              Draft for citizen filing under Section 6(1) of the RTI Act, 2005. Review and submit manually.
+            </p>
+            <div class="rti-box">
+              <pre id="rtiDraftContent">Generating draft...</pre>
+            </div>
+            <button id="copyRtiBtn" class="btn btn-primary btn-block">
+              COPY RTI DRAFT
+            </button>
+            <div id="copyFeedback" class="copy-feedback hidden">Copied to clipboard ✓</div>
+          </div>
+        </div>
+
+        <!-- Re-analyze button -->
+        <button id="reanalyzeBtn" class="btn btn-ghost btn-sm mt-3">↺ Scan Again</button>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="watchdog-footer">
+      <span>Coimbatore SWM Watchdog v1.0 • Smart City Hackathon</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
